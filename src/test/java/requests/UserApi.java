@@ -17,7 +17,7 @@ public class UserApi {
     public static Response createUser(String email, String name, String password) {
         User user = new User(email,name, password);
         Response response =
-                given().log().all()
+                given()
                         .header("Content-type", "application/json")
                         .body(user)
                         .post(USER_REGISTER_ENDPOINT);
@@ -28,7 +28,7 @@ public class UserApi {
     public static Response createUser(String email, String password) {
         User user = new User(email, password);
         Response response =
-                given().log().all()
+                given()
                         .header("Content-type", "application/json")
                         .body(user)
                         .post(USER_REGISTER_ENDPOINT);
@@ -40,7 +40,7 @@ public class UserApi {
     public static Response loginUser(String email, String password) {
         User user = new User(email,password);
         Response response =
-                given().log().all()
+                given()
                         .header("Content-type", "application/json")
                         .body(user)
                         .post(USER_LOGIN_ENDPOINT);
@@ -60,6 +60,32 @@ public class UserApi {
                         .post(USER_LOGIN_ENDPOINT)
                         .as(UserToken.class);
         return userResponce.accessToken;
+    }
+
+    //Изменение данных о пользователе
+    @Step("Отправляем PATCH-запрос для изменения данных о пользователе")
+    public static Response changeUserInfo(String email, String password, String newEmail, String newPassword){
+        String userAccessToken = loginUserAccessToken(email,password);
+        User user = new User (newEmail, newPassword);
+        Response responce =
+        given()
+                .header("Content-type", "application/json")
+                .header("Authorization", userAccessToken)
+                .body(user)
+                .patch(USER_ENDPOINT);
+        return responce;
+    }
+
+    //Изменение данных о пользователе
+    @Step("Отправляем PATCH-запрос для изменения данных о пользователе")
+    public static Response changeUserInfoWithoutAuth(String newEmail, String newPassword){
+        User user = new User (newEmail, newPassword);
+        Response responce =
+                given()
+                        .header("Content-type", "application/json")
+                        .body(user)
+                        .patch(USER_ENDPOINT);
+        return responce;
     }
 
     @Step("Отправляет DELETE-запрос удаления пользователя")

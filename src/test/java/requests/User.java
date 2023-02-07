@@ -8,7 +8,6 @@ public class User {
 
     private String password;
 
-    private String accessToken;
 
     //Конструкторы
     public User(String email, String name, String password) {
@@ -21,6 +20,11 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    public User(String email) {
+        this.email = email;
+    }
+
 
 
     //Геттеры и Сеттеры

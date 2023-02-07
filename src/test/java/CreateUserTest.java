@@ -44,6 +44,8 @@ public class CreateUserTest extends BaseTest {
             Response response = UserApi.createUser("autotestvasilevss@yandex.ru","q1w2e3r4t5");
             response.then().assertThat().body("success", equalTo(false))
                     .and()
+                    .assertThat().body("message", equalTo("Email, password and name are required fields"))
+                    .and()
                     .statusCode(SC_FORBIDDEN);
         }
 
