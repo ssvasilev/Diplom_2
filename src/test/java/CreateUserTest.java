@@ -24,7 +24,7 @@ public class CreateUserTest extends BaseTest {
         }
 
         @Test
-        @DisplayName("создать пользователя, который уже зарегистрирован") // имя теста
+        @DisplayName("Создать пользователя, который уже зарегистрирован") // имя теста
         @Description("Проверка, что нельзя создать пользователей с двумя одинаковыми email") // описание теста
         public void restDoubleCreateUser() {
             UserApi.createUser("autotestvasilevss@yandex.ru","Сергей","q1w2e3r4t5");
@@ -38,7 +38,7 @@ public class CreateUserTest extends BaseTest {
         }
 
         @Test
-        @DisplayName("создать пользователя и не заполнить одно из обязательных полей") // имя теста
+        @DisplayName("Создать пользователя и не заполнить одно из обязательных полей") // имя теста
         @Description("проверка, что для создания пользователя все поля обязательны") // описание теста
         public void restAllFieldsAreRequired() {
             Response response = UserApi.createUser("autotestvasilevss@yandex.ru","q1w2e3r4t5");

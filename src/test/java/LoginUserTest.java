@@ -18,7 +18,7 @@ public class LoginUserTest extends BaseTest {
 
 
     @Test
-    @DisplayName("логин под существующим пользователем")
+    @DisplayName("Логин под существующим пользователем")
     @Description("Проверка, что под пользователем можно авторизоваться")
     public  void restLoginUser() {
         Response response = UserApi.loginUser("autotestvasilevss@yandex.ru","q1w2e3r4t5");
@@ -28,7 +28,7 @@ public class LoginUserTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("логин с неверным логином и паролем")
+    @DisplayName("Логин с неверным логином и паролем")
     @Description("Проверка, нельзя авторизоваться под неверным логином и паролем")
     public  void restErrorPasswordFailLogin() {
         Response response = UserApi.loginUser("12345@yandex.ru","54321");

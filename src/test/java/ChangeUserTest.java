@@ -1,4 +1,7 @@
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import requests.BaseTest;
@@ -16,6 +19,8 @@ public class ChangeUserTest extends BaseTest {
 
 
     @Test
+    @DisplayName("Изменение email и пароля у пользователя с авторизацией")
+    @Description("Позитивный кейс")
     public void changeEmailAndPasswordUser(){
         Response response = UserApi.changeUserInfo("autotestvasilevss@yandex.ru","q1w2e3r4t5", "changeautotestvasilevss@yandex.ru", "12345");
         response.then().assertThat().body("success", equalTo(true))
@@ -25,6 +30,8 @@ public class ChangeUserTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Изменение email и пароля у пользователя без авторизации")
+    @Description("Негативный кейс")
     public void changeEmailAndPasswordUserWithoutAuth(){
         Response response = UserApi.changeUserInfoWithoutAuth("changeautotestvasilevss@yandex.ru", "12345");
         response.then().assertThat().body("success", equalTo(false))
@@ -34,8 +41,5 @@ public class ChangeUserTest extends BaseTest {
                 .statusCode(SC_UNAUTHORIZED);
         UserApi.deleteUser("autotestvasilevss@yandex.ru","q1w2e3r4t5");
     }
-
-//    @After
-//    public void restDeleteUser(){UserApi.deleteUser("autotestvasilevss@yandex.ru","q1w2e3r4t5");}
 
 }

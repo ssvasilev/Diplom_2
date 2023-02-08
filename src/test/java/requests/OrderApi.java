@@ -10,7 +10,7 @@ import static requests.UserApi.loginUserAccessToken;
 public class OrderApi {
     private static final  String ORDER_ENDPOINT = "/api/orders/";
 
-    @Step("Отправляем POST-запрос создания с авторизацией")
+    @Step("Отправляем POST-запрос создания заказа с авторизацией")
     public static Response createOrder(String email, String password, String[]ingredients){
         String userAccessToken = loginUserAccessToken(email,password);
         Order order = new Order(ingredients);
@@ -34,5 +34,23 @@ public class OrderApi {
         return response;
     }
 
+    @Step("Отправляем GET-запрос получения заказов пользователя")
+    public static Response getOrder(String email, String password){
+        String userAccessToken = loginUserAccessToken(email,password);
+        Response response=
+        given()
+                .header("Authorization", userAccessToken)
+                .header("Content-type", "application/json")
+                .get(ORDER_ENDPOINT);
+        return response;
+    }
 
+    @Step("Отправляем GET-запрос получения заказов неавторизованного")
+    public static Response getOrderWithoutAuth(){
+        Response response=
+                given()
+                        .header("Content-type", "application/json")
+                        .get(ORDER_ENDPOINT);
+        return response;
+    }
 }
