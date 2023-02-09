@@ -1,6 +1,7 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.junit.After;
 import org.junit.Test;
 import requests.BaseTest;
 import requests.OrderApi;
@@ -17,9 +18,9 @@ public class CreateOrderTest extends BaseTest {
     @Description("Так же покрывает кейс создания заказа с инридиентами")
     public void createOrder(){
         //Создаём пользователя
-        UserApi.createUser("autotestvasilevss@yandex.ru", "Сергей", "q1w2e3r4t5");
+        UserApi.createUser(testUserEmail, testUserName, testUserPassword);
         //Создаём заказ под пользователем
-        Response response = OrderApi.createOrder("autotestvasilevss@yandex.ru", "q1w2e3r4t5" ,new String[]{"61c0c5a71d1f82001bdaaa6d","61c0c5a71d1f82001bdaaa6f","61c0c5a71d1f82001bdaaa75"});
+        Response response = OrderApi.createOrder(testUserEmail, testUserPassword ,new String[]{"61c0c5a71d1f82001bdaaa6d","61c0c5a71d1f82001bdaaa6f","61c0c5a71d1f82001bdaaa75"});
         response.then().assertThat().body("success", equalTo(true))
                 .and()
                 .statusCode(SC_OK)
@@ -28,9 +29,7 @@ public class CreateOrderTest extends BaseTest {
                 .and()
                 .body("name", equalTo("Антарианский бессмертный флюоресцентный бургер"))
                 .and()
-                .body("order.owner.email", equalTo("autotestvasilevss@yandex.ru"));
-        //Удаляем пользователя
-        UserApi.deleteUser("autotestvasilevss@yandex.ru","q1w2e3r4t5");
+                .body("order.owner.email", equalTo(testUserEmail));
     }
 
     @Test
@@ -60,5 +59,9 @@ public class CreateOrderTest extends BaseTest {
         response.then().assertThat().statusCode(SC_INTERNAL_SERVER_ERROR);
     }
 
+    @After
+    public void deleteTestData(){
+        UserApi.deleteUser(testUserEmail,testUserPassword);
+    }
 
 }

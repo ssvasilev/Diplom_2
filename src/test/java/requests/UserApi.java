@@ -3,6 +3,8 @@ package requests;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
+import java.util.Objects;
+
 import static io.restassured.RestAssured.given;
 
 public class UserApi {
@@ -59,7 +61,7 @@ public class UserApi {
                         .body(user)
                         .post(USER_LOGIN_ENDPOINT)
                         .as(UserToken.class);
-        return userResponce.accessToken;
+        return Objects.requireNonNullElse(userResponce.accessToken, "Empty token, fail authorization");
     }
 
     //Изменение данных о пользователе
@@ -95,26 +97,5 @@ public class UserApi {
                     .header("Authorization", userAccessToken)
                     .delete(USER_ENDPOINT);
     }
-
-
-
-    public static class UserToken {
-        public String accessToken;
-        public String getAccessToken(){
-            return  accessToken;
-        }
-        public  void setAccessToken(){
-            this.accessToken = accessToken;
-        }
-        public String refreshToken;
-        public String getRefreshToken(){
-            return  refreshToken;
-        }
-        public  void setRefreshToken(){
-            this.refreshToken = refreshToken;
-        }
-
-    }
-
 
 }

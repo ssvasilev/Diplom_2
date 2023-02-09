@@ -13,7 +13,7 @@ public class LoginUserTest extends BaseTest {
 
     @Before
     public void createTestData() {
-        UserApi.createUser("autotestvasilevss@yandex.ru", "Сергей", "q1w2e3r4t5");
+        UserApi.createUser(testUserEmail, testUserName, testUserPassword);
     }
 
 
@@ -21,7 +21,7 @@ public class LoginUserTest extends BaseTest {
     @DisplayName("Логин под существующим пользователем")
     @Description("Проверка, что под пользователем можно авторизоваться")
     public  void restLoginUser() {
-        Response response = UserApi.loginUser("autotestvasilevss@yandex.ru","q1w2e3r4t5");
+        Response response = UserApi.loginUser(testUserEmail,testUserPassword);
         response.then().assertThat().body("success", equalTo(true))
                 .and()
                 .statusCode(SC_OK);
@@ -40,6 +40,6 @@ public class LoginUserTest extends BaseTest {
     }
 
     @After
-    public void restDeleteUser(){UserApi.deleteUser("autotestvasilevss@yandex.ru","q1w2e3r4t5");}
+    public void restDeleteUser(){UserApi.deleteUser(testUserEmail,testUserPassword);}
 
 }
